@@ -1,0 +1,150 @@
+@page "/eventcard"
+@using EventEaseApp.Models
+@using EventEaseApp.Services
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject EventService EventService
+
+
+<h3>Create New Event</h3>
+
+<EditForm Model="@newEvent" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Event Name:</label>
+        <InputText @bind-Value="newEvent.Name" />
+    </div>
+    <div>
+        <label>Date:</label>
+        <InputDate @bind-Value="newEvent.Date" />
+    </div>
+    <div>
+        <label>Location:</label>
+        <InputText @bind-Value="newEvent.Location" />
+    </div>
+
+    <button type="submit">Add Event</button>
+</EditForm>
+
+<hr />
+
+<h3>Search Events</h3>
+<input placeholder="Search by name or location" @bind="searchTerm" @bind:event="oninput" />
+<button @onclick="HandleSearch">Search</button>
+
+<hr />
+
+<h3>All Events</h3>
+@if (filteredEvents.Any())
+{
+    <ul>
+        @foreach (var ev in filteredEvents)
+        {
+            <li>
+                <strong>@ev.Name</strong> — @ev.Date.ToShortDateString() at @ev.Location
+                <button @onclick="() => DeleteEvent(ev.Name)">Delete</button>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No events found.</p>
+}
+<style>
+    
+h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+form div {
+    margin-bottom: 1rem;
+}
+
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px;
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    background: #f9f9f9;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+</style>
+@code {
+   
+
+    private EventModel newEvent = new();
+    private string searchTerm = "";
+    private List<EventModel> filteredEvents = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        filteredEvents = EventService.GetAllEvents();
+       
+    }
+    
+
+
+    private void HandleValidSubmit()
+    {
+        EventService.AddEvent(newEvent);
+        newEvent = new(); // clear form
+        RefreshEventList();
+    }
+
+    private void HandleSearch()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredEvents = EventService.GetAllEvents();
+        }
+        else
+        {
+            filteredEvents = EventService.SearchEvents(searchTerm);
+        }
+    }
+
+    private void DeleteEvent(string name)
+    {
+        EventService.DeleteEvent(name);
+        RefreshEventList();
+    }
+
+    private void RefreshEventList()
+    {
+        filteredEvents = EventService.GetAllEvents();
+    }
+}

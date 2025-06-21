@@ -1,0 +1,78 @@
+@page "/events"
+<h3>Event List</h3>
+@foreach (var ev in Events)
+{
+    <li>
+        <strong>@ev.Name</strong> — @ev.Date.ToShortDateString() at @ev.Location
+        <button @onclick="() => DeleteEvent(ev.Name)">Delete</button>
+        <button @onclick="() => MarkMePresent(ev.Name)"
+        disabled="@ev.Attendees.Contains(currentUser)">
+    @(
+        ev.Attendees.Contains(currentUser) ? "Attending" : "Attend"
+    )
+</button>
+
+        <ul>
+            @foreach (var attendee in ev.Attendees)
+            {
+                <li>- @attendee</li>
+            }
+        </ul>
+    </li>
+}
+
+@using EventEaseApp.Services
+
+@code {
+    // Example event model
+    public class Event
+    {
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public string Location { get; set; }
+        public List<string> Attendees { get; set; } = new List<string>();
+    }
+
+    // Initialize with some sample data
+   
+
+    private List<Event> Events = new()
+    {
+        new Event { Name = "Tech Conference", Date = DateTime.Today, Location = "Auditorium" },
+        new Event { Name = "Workshop", Date = DateTime.Today.AddDays(1), Location = "Lab 2" }
+    };
+
+    private void DeleteEvent(string name)
+    {
+        var ev = Events.FirstOrDefault(e => e.Name == name);
+        if (ev != null)
+        {
+            Events.Remove(ev);
+        }
+    }
+    private string GetAttendanceClass(Event ev)
+    {
+        return ev.Attendees.Contains(currentUser) ? "attending" : string.Empty;
+    }
+
+[Inject]
+public EventEaseApp.Services.EventService EventService { get; set; }
+
+private string currentUser = "sap"; // or use SessionService.Username
+
+private void MarkMePresent(string eventName)
+{
+    var ev = Events.FirstOrDefault(e => e.Name == eventName);
+    if (ev != null && !ev.Attendees.Contains(currentUser))
+    {
+        ev.Attendees.Add(currentUser);
+    }
+}
+
+}
+<style>
+    .attending {
+    background-color: #28a745;
+    color: white;
+}
+</style>

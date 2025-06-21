@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@inject UserSessionService SessionService
+
+@if (SessionService.IsSessionActive)
+{
+    <p>Welcome, @SessionService.Username! Last active at @SessionService.LastActive.ToLocalTime().</p>
+}
+else
+{
+    <p>You are not logged in.</p>
+}
+@inject UserSessionService SessionService
+@inject NavigationManager Navigation
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (!SessionService.IsSessionActive)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}
