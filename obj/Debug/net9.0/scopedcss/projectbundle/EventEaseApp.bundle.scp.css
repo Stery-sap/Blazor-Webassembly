@@ -76,6 +76,36 @@ main[b-uuqduv80zi] {
         padding-right: 1.5rem !important;
     }
 }
+.layout[b-uuqduv80zi] {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar[b-uuqduv80zi] {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 1rem;
+}
+
+.nav-item[b-uuqduv80zi] {
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.nav-item.active[b-uuqduv80zi],
+.nav-item:hover[b-uuqduv80zi] {
+    background-color: #007bff;
+    color: white;
+}
+
+.content[b-uuqduv80zi] {
+    flex: 1;
+    padding: 2rem;
+}
 /* /Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-pq9xlegf1q] {
     background-color: rgba(255, 255, 255, 0.1);
@@ -91,13 +121,11 @@ main[b-uuqduv80zi] {
 }
 
 .bi[b-pq9xlegf1q] {
-    display: inline-block;
-    position: relative;
+    flex-shrink: 0;
     width: 1.25rem;
     height: 1.25rem;
     margin-right: 0.75rem;
-    top: -1px;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 
 .bi-house-door-fill-nav-menu[b-pq9xlegf1q] {
@@ -126,13 +154,15 @@ main[b-uuqduv80zi] {
     }
 
     .nav-item[b-pq9xlegf1q]  a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    line-height: normal; /* <-- changed from 3rem */
+    padding-left: 0.5rem;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .nav-item[b-pq9xlegf1q]  a.active {
     background-color: rgba(255,255,255,0.37);

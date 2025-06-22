@@ -19,12 +19,3 @@ else
 @inject UserSessionService SessionService
 @inject NavigationManager Navigation
 
-@code {
-    protected override void OnInitialized()
-    {
-        if (!SessionService.IsSessionActive)
-        {
-            Navigation.NavigateTo("/login");
-        }
-    }
-}

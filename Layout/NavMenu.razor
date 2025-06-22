@@ -7,32 +7,42 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass sidebar">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door"></span> Home
+        </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
+        <NavLink class="nav-link" href="eventcard">
+            <span class="bi bi-calendar-plus"></span> Add Events
+        </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+        <NavLink class="nav-link" href="eventdetails">
+            <span class="bi bi-info-circle"></span> Event Details
+         </NavLink>
+        </div>
+        <div class="nav-item px-3">
+        <NavLink class="nav-link" href="events">
+            <span class="bi bi-calendar-event"></span> Events
+        </NavLink>
+        </div>
+        <div class="nav-item px-3">
+        <NavLink class="nav-link" href="register">
+            <span class="bi bi-person-plus"></span> Register
+        </NavLink>
+        </div>
+        <div class="nav-item px-3">
+        <NavLink class="nav-link" href="login">
+            <span class="bi bi-box-arrow-in-right"></span> Login
+        </NavLink>
         </div>
     </nav>
 </div>
 
-<NavMenu>
-    <NavLink href="eventcard" class="nav-link" Match="NavLinkMatch.All">📌 Add Events</NavLink>
-    <NavLink href="events" class="nav-link">📋 Event List</NavLink>
-    <NavLink href="eventdetails" class="nav-link">🔍 Event Details</NavLink>
-    <NavLink href="register" class="nav-link">📝 Register</NavLink>
-</NavMenu>
+    
 
 @code {
     private bool collapseNavMenu = true;
