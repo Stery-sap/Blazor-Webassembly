@@ -1,3 +1,5 @@
+EventEase Application
+
 🧱 Core Features
 - Event Creation & Listing: built a dynamic Razor component to create, search, and list events.
 - Code Optimization: refactored form and methods to use async/await, improved efficiency, and reduced redundant service calls.
